@@ -1,21 +1,12 @@
 require 'json'
 path = File.join(File.dirname(__FILE__), '../data/products.json')
 file = File.read(path)
-
-puts file
-
 toys_data = JSON.parse(file)
-
 puts toys_data.class
-
-
 # Print today's date
 require 'date'
-
 current_time = DateTime.now
-
 date_today = current_time.strftime "%d/%m/%Y"
-
 puts "Today's date is: " + date_today 
 
 puts "                     _            _       "
@@ -45,7 +36,7 @@ puts "|_|                                       "
     }
     puts "Average Price    : #{total_amount/toy["purchases"].length} USD" 
 
-    puts "Average Discount : #{toy["full-price"].to_f - total_amount/toy["purchases"].length} USD"
+    puts "Average Discount : #{toy["full-price"].to_f.round(2) - total_amount.round(2)/toy["purchases"].length.round(2)} USD"
     
 
     puts "                                      " #Empty Line
@@ -63,7 +54,7 @@ puts "|_|                                       "
 
 unique_brands = toys_data["items"].map { |item| item["brand"] }.uniq
   unique_brands.each_with_index { |brand, index|
-    
+    puts " "
     puts brand #prints the name of the brand
     puts "**************************************"   #Saperator
       brand_toys = toys_data["items"].select { |item| item["brand"] == brand }
@@ -80,15 +71,12 @@ unique_brands = toys_data["items"].map { |item| item["brand"] }.uniq
         }
       }
       brand_toys.each { |item| full_actual_price += (item["full-price"].to_f) }
-      puts "Total Stock      : #{total_stock_brand}"
-      puts "Total Revenue    : #{brand_sales.round(2)} USD"
+      puts "Total Stock         : #{total_stock_brand}"
+      puts "Total Revenue       : #{brand_sales.round(2)} USD"
       average_brand_price = (brand_sales / brand_purchases)
       average_brand_disc = (1 - brand_sales / (full_actual_price*2).to_f)
-      puts "Average Brand Price : #{average_brand_price.round(2)} "
+      puts "Average Brand Price : #{average_brand_price.round(2)} USD"
 }
   
       
-  # Calculate and print the average price of the brand's toys
-  
-  # Calculate and print the total revenue of all the brand's toy sales combined
 

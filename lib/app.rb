@@ -62,23 +62,30 @@ puts "|_|                                       "
   puts
 
 unique_brands = toys_data["items"].map { |item| item["brand"] }.uniq
-  unique_brands.each_with_index do |brand, index|
+  unique_brands.each_with_index { |brand, index|
     
-    puts brand
+    puts brand #prints the name of the brand
+    puts "**************************************"   #Saperator
       brand_toys = toys_data["items"].select { |item| item["brand"] == brand }
 
-      average_price = 0
-      total_revenue = 0
+      total_stock_brand = 0
+      full_actual_price = 0
+      brand_purchases = 0
+      brand_sales = 0
 
-      brand_toys.each { |toy| average_price += toy["full-price"].to_f}
-      puts average_price
-
-      brand_toys.each { |toy| total_revenue += toy["price"].to_f}
-
-      puts total_revenue
-
-
-end
+      brand_toys.each { |toy| total_stock_brand += toy["stock"].to_i } #counts stock for each brand
+      brand_toys.each { |item| brand_purchases += item["purchases"].length.to_i }
+      brand_toys.each { |item| 
+        item["purchases"].each { |el| brand_sales+= el["price"].to_f
+        }
+      }
+      brand_toys.each { |item| full_actual_price += (item["full-price"].to_f) }
+      puts "Total Stock      : #{total_stock_brand}"
+      puts "Total Revenue    : #{brand_sales.round(2)} USD"
+      average_brand_price = (brand_sales / brand_purchases)
+      average_brand_disc = (1 - brand_sales / (full_actual_price*2).to_f)
+      puts "Average Brand Price : #{average_brand_price.round(2)} "
+}
   
       
   # Calculate and print the average price of the brand's toys
